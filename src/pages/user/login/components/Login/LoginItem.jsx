@@ -4,10 +4,12 @@ import omit from 'omit.js';
 import ItemMap from './map';
 import LoginContext from './LoginContext';
 import styles from './index.less';
+
 const FormItem = Form.Item;
 
 class WrapFormItem extends Component {
   interval = undefined;
+
   static defaultProps = {
     getCaptchaButtonText: 'captcha',
     getCaptchaSecondText: 'second',
@@ -46,6 +48,7 @@ class WrapFormItem extends Component {
       this.runGetCaptchaCountDown();
     }
   };
+
   getFormItemOptions = ({ onChange, defaultValue, customProps = {}, rules }) => {
     const options = {
       rules: rules || customProps.rules,
@@ -61,6 +64,7 @@ class WrapFormItem extends Component {
 
     return options;
   };
+
   runGetCaptchaCountDown = () => {
     const { countDown } = this.props;
     let count = countDown || 59;

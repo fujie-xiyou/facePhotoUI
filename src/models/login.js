@@ -15,8 +15,9 @@ const Model = {
       yield put({
         type: 'changeLoginStatus',
         payload: response,
-      }); // Login successfully
+      });
 
+      // Login successfully
       if (response.success) {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();

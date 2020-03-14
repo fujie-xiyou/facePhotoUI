@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import { Button, Modal, Form, Input } from 'antd';
+import React, {useEffect, useState} from 'react';
+import { Button, Modal, Form, Input, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons'
+import {connect} from "dva";
 
 const AlbumsCreateForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
+  useEffect(() => {
+    if(!visible){
+      form.resetFields();
+    }
+  }, [visible]);
   return (
     <Modal
       visible={visible}
@@ -15,7 +21,6 @@ const AlbumsCreateForm = ({ visible, onCreate, onCancel }) => {
         form
           .validateFields()
           .then(values => {
-            form.resetFields();
             onCreate(values);
           })
           .catch(info => {
@@ -51,13 +56,29 @@ const AlbumsCreateForm = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-const AlbumsCreateButton = () => {
+const AlbumsCreateButton = props => {
   const [visible, setVisible] = useState(false);
+  const { dispatch } = props;
 
   const onCreate = values => {
-    console.log('Received values of form: ', values);
-    setVisible(false);
+    dispatch({
+      type: 'album/create',
+      payload: values
+    });
   };
+  useEffect(() => {
+    if(props.createState && visible){
+      message.success("创建成功");
+      setVisible(false);
+      dispatch({
+        type: 'album/resetCreateAlbumsState'
+      });
+      dispatch({
+        type: 'album/fetch'
+      })
+
+    }
+  });
 
   return (
     <span>
@@ -81,4 +102,6 @@ const AlbumsCreateButton = () => {
   );
 };
 
-export default AlbumsCreateButton
+export default connect(({ album }) => ({
+  createState: album.createState
+}))(AlbumsCreateButton);

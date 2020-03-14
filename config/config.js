@@ -106,6 +106,13 @@ export default {
               component: './Photos',
             },
             {
+              name: '相册照片',
+              icon: 'smile',
+              path: '/albums/albumphotos/:album_id',
+              component: './Albums/AlbumPhotos',
+              hideInMenu: true
+            },
+            {
               name: '相册',
               icon: 'FolderOutlined',
               path: '/albums',
@@ -183,4 +190,3 @@ export default {
   proxy: proxy[REACT_APP_ENV || 'dev'],
   chainWebpack: webpackPlugin,
 };
-

@@ -55,11 +55,11 @@ const request = extend({
 });
 
 
-// 处理业务错误
-request.use(async (ctx, next) => {
-  await next();
-  if(!ctx.res.success){
-    message.error(ctx.res.message);
-  }
-});
+// // 处理业务错误
+// request.use(async (ctx, next) => {
+//   await next();
+//   if(!ctx.res.success){
+//     message.error(ctx.res.message);
+//   }
+// });
 export default request;

@@ -15,7 +15,8 @@ export default props => {
             width: 240,
           }}
           cover={
-            <img alt={title} src={src} />
+            <div style={{height: 180, background:`url(${src})`, backgroundSize: 'cover' }}/>
+
           }
         >
           <Meta title={title} />
