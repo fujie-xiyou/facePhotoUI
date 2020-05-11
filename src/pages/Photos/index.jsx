@@ -19,7 +19,15 @@ const Photos = props => {
     <div className={styles.main}>
       <EditForm pageName="UserPhotos"/>
       <List
-        grid={{gutter: 16, column: 6}}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+          xl: 5,
+          xxl: 6,
+        }}
         dataSource={allPhotos}
         renderItem={value => (
           <List.Item>

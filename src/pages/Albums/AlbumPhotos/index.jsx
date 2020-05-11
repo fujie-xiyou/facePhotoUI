@@ -24,7 +24,15 @@ const AlbumPhoto = props => {
       <br/>
       <EditForm pageName="AlbumPhotos"/>
       <List
-        grid={{gutter: 16, column: 6}}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+          xl: 5,
+          xxl: 6,
+        }}
         dataSource={photos}
         renderItem={value => (
           <List.Item>

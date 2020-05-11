@@ -15,6 +15,10 @@ const PhotoModel = {
   },
   effects: {
     * fetchByAlbum({payload}, {call, put}) {
+      yield put({
+        type: 'setPhotos',
+        payload: []
+      });
       const response = yield call(fetchByAlbum, payload);
       yield put({
         type: 'setPhotos',
@@ -22,6 +26,10 @@ const PhotoModel = {
       })
     },
     * fetchUserPhoto(_, {call, put}) {
+      yield put({
+        type: 'setAllPhotos',
+        payload: []
+      });
       const response = yield call(fetchUserPhoto);
       yield put({
         type: 'setAllPhotos',
@@ -29,6 +37,10 @@ const PhotoModel = {
       })
     },
     * fetchByPersonAlbum({payload}, {call, put}){
+      yield put({
+        type: 'setPersonAlbumPhotos',
+        payload: []
+      });
       const response = yield call(fetchByPersonAlbum, payload);
       yield put({
         type: 'setPersonAlbumPhotos',

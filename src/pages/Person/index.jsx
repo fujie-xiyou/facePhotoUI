@@ -28,11 +28,19 @@ const PersonAlbumsIndex =  props => {
       />
       <br/><br/>
       <List
-        grid={{ gutter: 16, column: 6 }}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+          xl: 5,
+          xxl: 6,
+        }}
         dataSource={persons}
         renderItem={value => (
           <List.Item>
-            <AlbumContent id={value.id} src={value.src} name={value.name} description={value.description} to={`/person/personphotos/${value.id}`}/>
+            <AlbumContent pageName="Person" id={value.id} src={value.src} name={value.name} description={value.description} to={`/person/personphotos/${value.id}`}/>
           </List.Item>
         )}
       />

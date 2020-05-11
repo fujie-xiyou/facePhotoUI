@@ -7,7 +7,7 @@ import Photo from '@/pages/Photos/Photo';
 
 const PersonPhoto = props => {
   const [loading, setLoading] = useState(true);
-  const {photos, dispatch} = props;
+  const {personAlbumPhotos, dispatch} = props;
   useEffect(() => {
     dispatch({
       type: 'photo/fetchByPersonAlbum',
@@ -20,8 +20,16 @@ const PersonPhoto = props => {
     <PageHeaderWrapper>
       <br/>
       <List
-        grid={{gutter: 16, column: 6}}
-        dataSource={photos}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+          xl: 5,
+          xxl: 6,
+        }}
+        dataSource={personAlbumPhotos}
         renderItem={value => (
           <List.Item>
             <Photo
@@ -44,5 +52,5 @@ const PersonPhoto = props => {
 };
 
 export default connect(({photo}) => ({
-  photos: photo.photos
+  personAlbumPhotos: photo.personAlbumPhotos
 }))(PersonPhoto);

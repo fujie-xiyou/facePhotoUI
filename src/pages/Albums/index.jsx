@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {Spin, Input, List} from 'antd';
 import AlbumsCreateButton from '@/pages/Albums/Create';
 import AlbumContent from './AlbumContent';
 import {connect} from "dva";
 
-const AlbumsIndex =  props => {
-  const { Search } = Input;
+const AlbumsIndex = props => {
+  const {Search} = Input;
   const [loading, setLoading] = useState(true);
-  const { albums, dispatch } = props;
+  const {albums, dispatch} = props;
 
   useEffect(() => {
     dispatch({
@@ -19,7 +19,7 @@ const AlbumsIndex =  props => {
   }, []);
   return (
     <div>
-      <AlbumsCreateButton />
+      <AlbumsCreateButton/>
       &nbsp; &nbsp; &nbsp;
       <Search
         placeholder="搜索相册"
@@ -30,11 +30,20 @@ const AlbumsIndex =  props => {
       />
       <br/><br/>
       <List
-        grid={{ gutter: 16, column: 6 }}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+          xl: 5,
+          xxl: 6,
+        }}
         dataSource={albums}
         renderItem={value => (
           <List.Item>
-            <AlbumContent id={value.id} src={value.src} name={value.name} description={value.description} to={`albums/albumphotos/${value.id}`}/>
+            <AlbumContent pageName="Albums" id={value.id} src={value.src} name={value.name}
+                          description={value.description} to={`albums/albumphotos/${value.id}`}/>
           </List.Item>
         )}
       />
@@ -51,6 +60,6 @@ const AlbumsIndex =  props => {
   );
 };
 
-export default connect(({ album }) => ({
+export default connect(({album}) => ({
   albums: album.albums
 }))(AlbumsIndex);

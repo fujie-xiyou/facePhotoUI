@@ -1,4 +1,4 @@
-import { fetchUserAlbums, createAlbum } from '@/services/album';
+import { fetchUserAlbums, createAlbum, del, modify} from '@/services/album';
 import {message} from "antd";
 
 const AlbumModel = {
@@ -9,6 +9,10 @@ const AlbumModel = {
   },
   effects: {
     *fetch(_, { call , put}){
+      yield put({
+        type: 'setAlbums',
+        payload: undefined
+      });
       const response = yield call(fetchUserAlbums);
       yield put({
         type: 'setAlbums',
@@ -30,7 +34,22 @@ const AlbumModel = {
       }
     },
     * del({payload}, {call, put}){
-
+      const response = yield call(del, payload);
+      if(response.success){
+        message.success("删除成功");
+        yield put({
+          type: 'fetch'
+        })
+      }
+    },
+    * modify({payload}, {call, put}){
+      const response = yield call(modify, payload);
+      if(response.success){
+        message.success("修改成功");
+        yield put({
+          type: 'fetch'
+        })
+      }
     }
   },
   reducers: {

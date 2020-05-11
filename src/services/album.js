@@ -19,3 +19,11 @@ export async function del(payload) {
             data: payload
         })
 }
+
+export async function modify(payload) {
+    return request('/api/album/modify',
+        {
+            method: 'POST',
+            data: payload
+        })
+}
