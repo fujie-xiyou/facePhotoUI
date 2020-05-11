@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {Spin, Input, List} from 'antd';
-import styles from './index.less';
 import AlbumsCreateButton from '@/pages/Albums/Create';
 import AlbumContent from './AlbumContent';
 import {connect} from "dva";
@@ -9,16 +8,14 @@ const AlbumsIndex =  props => {
   const { Search } = Input;
   const [loading, setLoading] = useState(true);
   const { albums, dispatch } = props;
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
 
   useEffect(() => {
     dispatch({
       type: 'album/fetch'
-    })
+    }).then(
+      () => setLoading(false)
+    );
+
   }, []);
   return (
     <div>
@@ -37,10 +34,19 @@ const AlbumsIndex =  props => {
         dataSource={albums}
         renderItem={value => (
           <List.Item>
-            <AlbumContent id={value.id} src={value.src} name={value.name} description={value.description}/>
+            <AlbumContent id={value.id} src={value.src} name={value.name} description={value.description} to={`albums/albumphotos/${value.id}`}/>
           </List.Item>
         )}
       />
+      <div
+        style={{
+          paddingTop: 100,
+          textAlign: 'center',
+        }}
+      >
+        <Spin spinning={loading} size="large" />
+      </div>
+
     </div>
   );
 };

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    body div{
+      display: inline-block;
+      text-align: center;
+    }
+    .initImg{
+      width: 240px;
+      height: 180px;
+    }
+    .fillImg{
+      object-fit: fill;
+    }
+    .containImg{
+      object-fit: contain;
+    }
+    .coverImg{
+      object-fit: cover;
+    }
+    .noneImg{
+      object-fit: none;
+    }
+    .scaleDownImg{
+      object-fit: scale-down;
+    }
+  </style>
+</head>
+<body>
+<div>
+  <img src="http://localhost:8001/static/facePhoto/1588612597.516809-IMG_20190505_185644.jpg" class="initImg"/>
+  <p>图片初始化</p>
+</div>
+
+<div>
+  <img src="http://localhost:8001/static/facePhoto/1588612597.516809-IMG_20190505_185644.jpg"
+       class="initImg fillImg"/>
+  <p>object-fit:fill</p>
+</div>
+
+<div>
+  <img src="http://localhost:8001/static/facePhoto/1588612597.516809-IMG_20190505_185644.jpg"
+       class="initImg containImg"/>
+  <p>object-fit:contain</p>
+</div>
+</br>
+
+<div>
+  <img src="http://localhost:8001/static/facePhoto/1588612597.516809-IMG_20190505_185644.jpg"
+       class="initImg coverImg"/>
+  <p>object-fit:cover</p>
+</div>
+
+<div>
+  <img src="http://localhost:8001/static/facePhoto/1588612597.516809-IMG_20190505_185644.jpg"
+       class="initImg noneImg"/>
+  <p>object-fit:none</p>
+</div>
+
+<div>
+  <img src="http://localhost:8001/static/facePhoto/1588612597.516809-IMG_20190505_185644.jpg"
+       class="initImg scaleDownImg"/>
+  <p>object-fit:scale-down</p>
+</div>
+
+</body>
+</html>

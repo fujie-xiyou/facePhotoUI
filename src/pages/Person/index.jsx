@@ -1,17 +1,41 @@
-import {PageHeaderWrapper} from '@ant-design/pro-layout';
-import React, {useState, useEffect} from 'react';
-import {Card, Spin} from 'antd';
-import styles from './index.less';
+import React, { useState, useEffect } from 'react';
+import {Spin, Input, List} from 'antd';
+import AlbumContent from '@/pages/Albums/AlbumContent';
+import {connect} from "dva";
 
-export default () => {
+const PersonAlbumsIndex =  props => {
+  const { Search } = Input;
   const [loading, setLoading] = useState(true);
+  const { persons, dispatch } = props;
+
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    dispatch({
+      type: 'person/fetch'
+    }).then(
+      () => setLoading(false)
+    );
+
   }, []);
   return (
-    <PageHeaderWrapper content="这是一个新页面，从这里进行开发！" className={styles.main}>
+    <div>
+      &nbsp; &nbsp; &nbsp;
+      <Search
+        placeholder="搜索人物"
+        onSearch={value => console.log(value)}
+        style={{
+          width: 200,
+        }}
+      />
+      <br/><br/>
+      <List
+        grid={{ gutter: 16, column: 6 }}
+        dataSource={persons}
+        renderItem={value => (
+          <List.Item>
+            <AlbumContent id={value.id} src={value.src} name={value.name} description={value.description} to={`/person/personphotos/${value.id}`}/>
+          </List.Item>
+        )}
+      />
       <div
         style={{
           paddingTop: 100,
@@ -20,6 +44,11 @@ export default () => {
       >
         <Spin spinning={loading} size="large" />
       </div>
-    </PageHeaderWrapper>
+
+    </div>
   );
 };
+
+export default connect(({ person }) => ({
+  persons: person.persons
+}))(PersonAlbumsIndex);

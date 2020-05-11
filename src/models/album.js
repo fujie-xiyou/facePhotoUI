@@ -28,6 +28,9 @@ const AlbumModel = {
       }else {
         message.error(response.message)
       }
+    },
+    * del({payload}, {call, put}){
+
     }
   },
   reducers: {

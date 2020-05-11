@@ -16,6 +16,7 @@ const AlbumsCreateForm = ({ visible, onCreate, onCancel }) => {
       title="创建相册"
       okText="创建"
       cancelText="取消"
+      forceRender
       onCancel={onCancel}
       onOk={() => {
         form

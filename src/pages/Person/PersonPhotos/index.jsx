@@ -2,27 +2,23 @@ import {PageHeaderWrapper} from '@ant-design/pro-layout';
 import React, {useState, useEffect} from 'react';
 import {Spin, List} from "antd";
 import {connect} from "dva";
-import Photo from "@/pages/Photos/Photo";
-import EditForm from "@/pages/Photos/Edit";
-import UploadPhotoButton from './UploadPhotoButton';
+import Photo from '@/pages/Photos/Photo';
 
-const AlbumPhoto = props => {
+
+const PersonPhoto = props => {
   const [loading, setLoading] = useState(true);
   const {photos, dispatch} = props;
-
   useEffect(() => {
     dispatch({
-      type: 'photo/fetchByAlbum',
-      payload: props.match.params.album_id
+      type: 'photo/fetchByPersonAlbum',
+      payload: props.match.params.person_album_id
     }).then(
       () => setLoading(false)
     );
   }, []);
   return (
     <PageHeaderWrapper>
-      <UploadPhotoButton albumID={props.match.params.album_id}/>
       <br/>
-      <EditForm pageName="AlbumPhotos"/>
       <List
         grid={{gutter: 16, column: 6}}
         dataSource={photos}
@@ -30,7 +26,7 @@ const AlbumPhoto = props => {
           <List.Item>
             <Photo
               photo={value}
-              pageName="AlbumPhotos"
+              hasActions={false}
             />
           </List.Item>
         )}
@@ -41,7 +37,7 @@ const AlbumPhoto = props => {
           textAlign: 'center',
         }}
       >
-        <Spin spinning={loading} size="large"/>
+        <Spin spinning={loading} size="large" />
       </div>
     </PageHeaderWrapper>
   );
@@ -49,4 +45,4 @@ const AlbumPhoto = props => {
 
 export default connect(({photo}) => ({
   photos: photo.photos
-}))(AlbumPhoto);
+}))(PersonPhoto);

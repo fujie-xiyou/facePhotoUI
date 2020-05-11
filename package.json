@@ -71,7 +71,8 @@
     "umi-plugin-react": "^1.9.5",
     "umi-request": "^1.0.8",
     "@ant-design/icons": "latest",
-    "@ant-design/compatible": "latest"
+    "@ant-design/compatible": "latest",
+    "react-zmage": "latest"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^1.0.18",

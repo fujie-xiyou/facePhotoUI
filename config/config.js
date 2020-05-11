@@ -125,6 +125,13 @@ export default {
               component: './Person',
             },
             {
+              name: '人物照片',
+              icon: 'smile',
+              path: '/person/personphotos/:person_album_id',
+              component: './Person/PersonPhotos',
+              hideInMenu: true
+            },
+            {
               name: '智能分类',
               icon: 'HddOutlined',
               path: '/sort',
