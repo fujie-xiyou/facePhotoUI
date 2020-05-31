@@ -1,8 +1,10 @@
 import { stringify } from 'querystring';
 import { router } from 'umi';
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/login';
+import {fakeAccountLogin, getFakeCaptcha, logout} from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
+import { routerRedux } from 'dva/router';
+
 
 const Model = {
   namespace: 'login',
@@ -46,7 +48,8 @@ const Model = {
       yield call(getFakeCaptcha, payload);
     },
 
-    logout() {
+    *logout(_, { call }) {
+      yield call(logout);
       const { redirect } = getPageQuery(); // Note: There may be security issues, please note
 
       if (window.location.pathname !== '/user/login' && !redirect) {
@@ -58,6 +61,7 @@ const Model = {
         });
       }
     },
+
   },
   reducers: {
     changeLoginStatus(state, { payload }) {

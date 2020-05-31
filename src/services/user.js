@@ -9,3 +9,9 @@ export async function queryCurrent() {
 export async function queryNotices() {
   return request('/api/notices');
 }
+export async function register(data) {
+  return request('/api/user/register', {
+    method: 'POST',
+    data
+  })
+}

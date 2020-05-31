@@ -7,7 +7,7 @@ const PersonAlbumsIndex =  props => {
   const { Search } = Input;
   const [loading, setLoading] = useState(true);
   const { persons, dispatch } = props;
-
+  const [searchPersons, setSearchPersons] = useState();
   useEffect(() => {
     dispatch({
       type: 'person/fetch'
@@ -21,7 +21,9 @@ const PersonAlbumsIndex =  props => {
       &nbsp; &nbsp; &nbsp;
       <Search
         placeholder="搜索人物"
-        onSearch={value => console.log(value)}
+        onSearch={value => {
+          setSearchPersons(persons.filter(item => item.name.search(value) >= 0 || item.description.search(value) >= 0))
+        }}
         style={{
           width: 200,
         }}
@@ -37,7 +39,7 @@ const PersonAlbumsIndex =  props => {
           xl: 5,
           xxl: 6,
         }}
-        dataSource={persons}
+        dataSource={searchPersons || persons}
         renderItem={value => (
           <List.Item>
             <AlbumContent pageName="Person" id={value.id} src={value.src} name={value.name} description={value.description} to={`/person/personphotos/${value.id}`}/>

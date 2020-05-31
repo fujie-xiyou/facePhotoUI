@@ -1,4 +1,7 @@
-import {fetchByAlbum, fetchUserPhoto, fetchByPersonAlbum, del, modify} from '@/services/photo';
+import {fetchByAlbum, fetchUserPhoto,
+  fetchByPersonAlbum, del, modify, style, unmarkBlurred,
+  similarity, delSimilarity, fetchBlurredPhotos
+} from '@/services/photo';
 import {message} from "antd";
 
 
@@ -11,7 +14,12 @@ const PhotoModel = {
     editFormData: {
       visible: false,
       photo: undefined
-    }
+    },
+    styleModalData: {
+      visible: false,
+      photo: undefined
+    },
+    similarityPhotos: []
   },
   effects: {
     * fetchByAlbum({payload}, {call, put}) {
@@ -85,11 +93,92 @@ const PhotoModel = {
         message.error(response.message || "服务器异常，修改失败")
       }
     },
+    * style({payload}, {call, put}){
+      const response = yield call(style, payload);
+      if(response.success){
+        message.success("处理成功");
+        if(payload.pageName === 'UserPhotos'){
+          yield put({
+            type: 'fetchUserPhoto'
+          })
+        }
+        else if(payload.pageName === "AlbumPhotos"){
+          yield put({
+            type: 'fetchByAlbum',
+            payload: payload.album_id
+          })
+        }
+      }else {
+        message.error(response.message || "服务器异常，处理失败")
+      }
+    },
     * setEditFormData({payload}, {_, put}){
       yield put({
         type: 'setEditFormDataReducers',
         payload,
       })
+    },
+    * setStyleModalData({payload}, {_, put}){
+      yield put({
+        type: 'setStyleModalDataReducers',
+        payload
+      })
+    },
+    * fetchSimilarityPhotos(_, {call, put}){
+      const response = yield call(similarity);
+      if(response.success){
+        yield put({
+          type: 'setSimilarityPhotos',
+          payload: response.data
+        })
+      }else {
+        message.error(response.message || "服务器异常，获取失败")
+      }
+
+    },
+    * delSimilarity({payload}, {call, put}){
+      const response = yield call(delSimilarity, payload);
+      if(response.success){
+        message.success("删除成功");
+        yield put({
+          type: 'fetchSimilarityPhotos'
+        })
+      }else {
+        message.error(response.message || "服务器异常，删除失败")
+      }
+    },
+    *fetchBlurredPhotos(_, {call, put}){
+      const response = yield call(fetchBlurredPhotos);
+      if(response.success){
+        yield put({
+          type: 'setBlurredPhotos',
+          payload: response.data
+        })
+      }else {
+        message.error(response.message || "服务器异常")
+      }
+    },
+    * delBlurry({payload}, {call, put}){
+      const response = yield call(del, payload);
+      if(response.success){
+        message.success("删除成功");
+        yield put({
+          type: 'fetchBlurredPhotos'
+        })
+      }else {
+        message.error(response.message || "服务器异常，删除失败")
+      }
+    },
+    *unmarkBlurred({payload}, {call, put}){
+      const response = yield call(unmarkBlurred, payload);
+      if(response.success){
+        message.success("操作成功");
+        yield put({
+          type: 'fetchBlurredPhotos'
+        })
+      }else {
+        message.error(response.message || "服务器异常，操作失败")
+      }
     }
 
   },
@@ -105,6 +194,15 @@ const PhotoModel = {
     },
     setEditFormDataReducers(state, {payload}){
       return {...state, editFormData: payload}
+    },
+    setStyleModalDataReducers(state, {payload}){
+      return {...state, styleModalData: payload}
+    },
+    setSimilarityPhotos(state, {payload}){
+      return {...state, similarityPhotos: payload}
+    },
+    setBlurredPhotos(state, {payload}){
+      return{...state, blurredPhotos: payload}
     }
   }
 };

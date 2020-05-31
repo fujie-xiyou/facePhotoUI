@@ -30,3 +30,37 @@ export async function modify(data) {
     }
   )
 }
+
+export async function style(data) {
+  return request(
+    `/api/photo/style`,
+    {
+      method: 'POST',
+      data
+    }
+  )
+}
+
+export async function similarity() {
+  return request(`/api/photo/similarity`)
+}
+
+export async function delSimilarity(data) {
+  return request('/api/photo/similarity/delete',
+    {
+      method: 'POST',
+      data
+    })
+}
+
+export async function fetchBlurredPhotos() {
+  return request('/api/photo/blurry')
+}
+
+export async function unmarkBlurred(data) {
+  return request('/api/photo/blurry/unmark',
+    {
+      method: 'POST',
+      data
+    })
+}

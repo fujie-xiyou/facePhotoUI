@@ -1,28 +1,27 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Card, Modal} from 'antd';
 import Zmage from 'react-zmage'
-import {EditOutlined, DeleteOutlined, ExclamationCircleOutlined, BgColorsOutlined} from '@ant-design/icons';
+import {DeleteOutlined, ExclamationCircleOutlined} from '@ant-design/icons';
 import {connect} from "dva";
 
 const {Meta} = Card;
 const Photo = props => {
-  const {photo, dispatch, pageName, hasActions} = props;
+  const {photo, dispatch, pageName} = props;
   const {confirm} = Modal;
 
   function showDeleteConfirm() {
     confirm({
-      title: '确认删除照片吗？',
+      title: '确认重复删除照片吗？',
       icon: <ExclamationCircleOutlined/>,
       content: '照片将被永久删除，不可恢复',
       okText: "确认",
       cancelText: "取消",
       onOk() {
         return dispatch({
-          type: 'photo/del',
+          type: 'photo/delSimilarity',
           payload: {
             pageName,
             photo_id: photo.id,
-            album_id: photo.album_id
 
           }
         })
@@ -32,39 +31,11 @@ const Photo = props => {
     });
   }
 
-  function showStyleModal() {
-    dispatch({
-      type: 'photo/setStyleModalData',
-      payload: {
-        visible: true,
-        photo,
-      }
-    })
-  }
-
-
-  function showEditModal() {
-    dispatch({
-      type: 'photo/setEditFormData',
-      payload: {
-        visible: true,
-        photo,
-      }
-    })
-  }
 
   const src = /^(http)|(https):\/\//.test(photo.path) ? photo.path : `/static/facePhoto/${encodeURI(photo.path)}`;
-  let actions = [
-    <EditOutlined onClick={() => showEditModal()}/>,
+  const actions = [
     <DeleteOutlined onClick={() => showDeleteConfirm()}/>,
-    <BgColorsOutlined onClick={() => showStyleModal()}/>
   ];
-  if (pageName === "BlurredPhoto"){
-    actions = [
-      <DeleteOutlined onClick={() => showDeleteConfirm()}/>,
-      // unmark
-    ]
-  }
   return (
     <div>
       <Card
@@ -81,16 +52,12 @@ const Photo = props => {
             }}
           />
         }
-        actions={
-          hasActions ? actions : []
-        }
+        actions={actions}
       >
         <Meta title={photo.name}/>
       </Card>
     </div>
   );
 };
-Photo.defaultProps = {
-  hasActions: true
-};
+
 export default connect()(Photo);

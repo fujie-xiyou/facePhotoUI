@@ -79,11 +79,10 @@ export default {
           component: './user/login',
         },
         {
-          name: '注册页',
-          icon: 'smile',
+          name: 'register',
           path: '/user/register',
-          component: './UserRegister',
-        },
+          component: './user/register'
+        }
       ],
     },
     {
@@ -132,7 +131,7 @@ export default {
               hideInMenu: true
             },
             {
-              name: '智能分类',
+              name: '智能整理',
               icon: 'HddOutlined',
               path: '/sort',
               component: './Sort',

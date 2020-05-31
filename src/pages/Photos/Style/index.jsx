@@ -1,45 +1,42 @@
-import React , {useState} from 'react';
-import {Form, Modal, Input} from "antd";
-import {ExclamationCircleOutlined} from '@ant-design/icons';
+import React, {useState} from 'react';
+import {Form, Modal, Radio} from "antd";
 import {connect} from "dva";
 
-const EditForm = props => {
+const StyleModal = props => {
   const [form] = Form.useForm();
-  const {editFormData, dispatch, pageName} = props;
-  const {photo} = editFormData;
+  const {styleModalData, dispatch, pageName} = props;
+  const {photo} = styleModalData;
   const [confirmLoading, setConfirmLoading] = useState(false);
-  if (photo !== undefined)
-    form.setFieldsValue({name: photo.name});
+  form.setFieldsValue({style_type: null});
   return (
     <Modal
-      visible={editFormData.visible}
-      title='修改照片'
-      icon={<ExclamationCircleOutlined/>}
+      visible={styleModalData.visible}
+      confirmLoading={confirmLoading}
+      title='风格化照片'
       forceRender
       okText="确认"
       cancelText="取消"
-      confirmLoading={confirmLoading}
       onOk={
         () => {
-          setConfirmLoading(true);
           form
             .validateFields()
             .then(values => {
+              setConfirmLoading(true);
               console.log("values", values);
               const data = {
-                album_id: photo.album_id,
                 pageName,
+                album_id: photo.album_id,
+                style_type: values.style_type,
                 id: photo.id,
-                name: values.name
               };
               dispatch({
-                type: 'photo/modify',
+                type: 'photo/style',
                 payload: data
               }).then(
                 () =>{
                   setConfirmLoading(false);
                   dispatch({
-                    type: 'photo/setEditFormData',
+                    type: 'photo/setStyleModalData',
                     payload: {
                       visible: false,
                       photo: undefined
@@ -56,7 +53,7 @@ const EditForm = props => {
       }
       onCancel={() => {
         dispatch({
-          type: 'photo/setEditFormData',
+          type: 'photo/setStyleModalData',
           payload: {
             visible: false,
             photo: undefined
@@ -70,16 +67,23 @@ const EditForm = props => {
         name="photo"
       >
         <Form.Item
-          label="照片名称"
-          name="name"
-          rules={[{required: true, message: '名称不能为空'}]}
+          label="照片风格"
+          name="style_type"
+          rules={[{required: true, message: '请选择一种风格'}]}
         >
-          <Input/>
+          <Radio.Group>
+            <Radio.Button value="grays">黑白</Radio.Button>
+            <Radio.Button value="sketch">素描</Radio.Button>
+            <Radio.Button value="starry_night">星夜</Radio.Button>
+            <Radio.Button value="la_muse">缪斯</Radio.Button>
+            <Radio.Button value="candy">糖果</Radio.Button>
+            <Radio.Button value="the_scream">呐喊</Radio.Button>
+          </Radio.Group>
         </Form.Item>
       </Form>
     </Modal>
   )
 };
 export default connect(({photo}) => ({
-  editFormData: photo.editFormData
-}))(EditForm);
+  styleModalData: photo.styleModalData
+}))(StyleModal);

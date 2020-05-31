@@ -11,7 +11,9 @@ import styles from './index.less';
 
 class Login extends Component {
   static Tab = LoginTab;
+
   static Submit = LoginSubmit;
+
   static defaultProps = {
     className: '',
     defaultActiveKey: '',
@@ -50,6 +52,7 @@ class Login extends Component {
       },
     );
   };
+
   getContext = () => {
     const { form } = this.props;
     const { tabs = [] } = this.state;
@@ -82,6 +85,7 @@ class Login extends Component {
       },
     };
   };
+
   handleSubmit = e => {
     e.preventDefault();
     const { active = {}, type = '' } = this.state;

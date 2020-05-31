@@ -1,30 +1,42 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Card, Modal} from 'antd';
 import Zmage from 'react-zmage'
-import {EditOutlined, DeleteOutlined, ExclamationCircleOutlined, BgColorsOutlined} from '@ant-design/icons';
+import {DeleteOutlined, ExclamationCircleOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import {connect} from "dva";
 
 const {Meta} = Card;
 const Photo = props => {
-  const {photo, dispatch, pageName, hasActions} = props;
+  const {photo, dispatch} = props;
   const {confirm} = Modal;
 
   function showDeleteConfirm() {
     confirm({
-      title: '确认删除照片吗？',
+      title: '确认删除该模糊照片吗？',
       icon: <ExclamationCircleOutlined/>,
       content: '照片将被永久删除，不可恢复',
       okText: "确认",
       cancelText: "取消",
       onOk() {
         return dispatch({
-          type: 'photo/del',
-          payload: {
-            pageName,
-            photo_id: photo.id,
-            album_id: photo.album_id
-
-          }
+          type: 'photo/delBlurry',
+          payload: photo.id,
+        })
+      },
+      onCancel() {
+      },
+    });
+  }
+  function showUnMark() {
+    confirm({
+      title: '该照片不是模糊照片吗？',
+      icon: <ExclamationCircleOutlined/>,
+      content: '如果您认为该照片不是模糊照片，请点击"确定"按钮，该照片将不会再出现在模糊照片列表中。',
+      okText: "确认",
+      cancelText: "取消",
+      onOk() {
+        return dispatch({
+          type: 'photo/unmarkBlurred',
+          payload: photo.id,
         })
       },
       onCancel() {
@@ -32,39 +44,12 @@ const Photo = props => {
     });
   }
 
-  function showStyleModal() {
-    dispatch({
-      type: 'photo/setStyleModalData',
-      payload: {
-        visible: true,
-        photo,
-      }
-    })
-  }
-
-
-  function showEditModal() {
-    dispatch({
-      type: 'photo/setEditFormData',
-      payload: {
-        visible: true,
-        photo,
-      }
-    })
-  }
 
   const src = /^(http)|(https):\/\//.test(photo.path) ? photo.path : `/static/facePhoto/${encodeURI(photo.path)}`;
-  let actions = [
-    <EditOutlined onClick={() => showEditModal()}/>,
+  const actions = [
     <DeleteOutlined onClick={() => showDeleteConfirm()}/>,
-    <BgColorsOutlined onClick={() => showStyleModal()}/>
+    <InfoCircleOutlined onClick={() => showUnMark()}/>
   ];
-  if (pageName === "BlurredPhoto"){
-    actions = [
-      <DeleteOutlined onClick={() => showDeleteConfirm()}/>,
-      // unmark
-    ]
-  }
   return (
     <div>
       <Card
@@ -81,16 +66,12 @@ const Photo = props => {
             }}
           />
         }
-        actions={
-          hasActions ? actions : []
-        }
+        actions={actions}
       >
         <Meta title={photo.name}/>
       </Card>
     </div>
   );
 };
-Photo.defaultProps = {
-  hasActions: true
-};
+
 export default connect()(Photo);
