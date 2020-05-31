@@ -4,6 +4,7 @@ import {Spin, List} from "antd";
 import {connect} from "dva";
 import Photo from "@/pages/Photos/Photo";
 import EditForm from "@/pages/Photos/Edit";
+import StyleModal from "@/pages/Photos/Style";
 import UploadPhotoButton from './UploadPhotoButton';
 
 const AlbumPhoto = props => {
@@ -22,6 +23,7 @@ const AlbumPhoto = props => {
     <PageHeaderWrapper>
       <UploadPhotoButton albumID={props.match.params.album_id}/>
       <br/>
+      <StyleModal pageName="AlbumPhotos"/>
       <EditForm pageName="AlbumPhotos"/>
       <List
         grid={{

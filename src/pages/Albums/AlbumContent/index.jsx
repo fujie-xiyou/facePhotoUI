@@ -121,8 +121,7 @@ const AlbumContent = ({id, dispatch, src, name, description, to, pageName}) => {
       }}
       cover={
         <Link to={to}>
-
-          <div style={{height: 180, background: `url(${encodeURI(ssrc)})`, backgroundSize: 'cover'}}/>
+          <div style={{height: 180, background: `url('${encodeURI(ssrc)}')`, backgroundSize: 'cover'}}/>
         </Link>
 
       }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Modal, Upload, message, Input, Radio} from 'antd';
+import {Button, Modal, Upload, message, } from 'antd';
 import {Form} from '@ant-design/compatible'
 import {InboxOutlined, UploadOutlined} from '@ant-design/icons';
 import {connect} from "dva";
@@ -18,6 +18,7 @@ const CollectionCreateForm = Form.create({
     render() {
       const {visible, onCancel, onCreate, albumID} = this.props;
       const props = {
+        accept: "image/*",
         name: 'file',
         multiple: true,
         action: '/api/photo/upload',
@@ -39,10 +40,10 @@ const CollectionCreateForm = Form.create({
         <Modal
           visible={visible}
           title="上传照片"
-          okText="完成"
-          cancelText="关闭"
-          onCancel={onCancel}
-          onOk={onCreate}
+          onCancel={onCreate}
+          footer={[
+            <Button type="primary" onClick={onCreate}>完成</Button>
+          ]}
         >
           <Dragger {...props}>
             <p className="ant-upload-drag-icon">
